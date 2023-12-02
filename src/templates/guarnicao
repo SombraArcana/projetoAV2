@@ -1,0 +1,21 @@
+
+<!-- tasks.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="tasks.css">
+</head>
+<body>
+    <h1>Lista de Tarefas</h1>
+    <ul>
+        <!-- Aqui, você pode usar Jinja2 ou outra linguagem de modelo para iterar sobre as tarefas -->
+        <li>Tarefa 1 - Descrição 1 - Data 1 - Concluída</li>
+        <li>Tarefa 2 - Descrição 2 - Data 2 - Pendente</li>
+        <!-- ... -->
+    </ul>
+</body>
+</html>

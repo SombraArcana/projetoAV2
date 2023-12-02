@@ -1,0 +1,9 @@
+{
+    "usuarios_logados": [
+      {
+        "id": 1,
+        "nome": "João",
+        "email": "joao@email.com"
+      }
+    ]
+  }

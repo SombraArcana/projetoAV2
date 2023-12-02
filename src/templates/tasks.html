@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="tasks.css">
+</head>
+<body>
+    <h1>Lista de Tarefas</h1>
+
+    <!-- Formulário para criar uma nova tarefa -->
+    <form id="createTaskForm">
+        <label for="description">Descrição:</label>
+        <input type="text" id="description" name="description" required>
+        <button type="button" onclick="createTask()">Criar Tarefa</button>
+    </form>
+
+    <ul id="tasksList">
+        <!-- Aqui, você pode usar Jinja2 ou outra linguagem de modelo para iterar sobre as tarefas -->
+        <li>Tarefa 1 - Descrição 1 - Data 1 - Concluída <button type="button" onclick="deleteTask(1)">Excluir</button></li>
+        <li>Tarefa 2 - Descrição 2 - Data 2 - Pendente <button type="button" onclick="deleteTask(2)">Excluir</button></li>
+        <!-- ... -->
+    </ul>
+
+    <script>
+        function createTask() {
+            // Lógica para enviar uma solicitação ao servidor e criar uma nova tarefa
+            // Você precisa usar JavaScript ou outra biblioteca para interagir com o backend
+
+            // Exemplo de uso do fetch API
+            fetch('/create_task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    description: document.getElementById('description').value,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Atualize a lista de tarefas após a criação bem-sucedida
+                fetchTasks();
+            })
+            .catch((error) => {
+                console.error('Erro:', error);
+            });
+        }
+
+        function deleteTask(taskId) {
+            // Lógica para enviar uma solicitação ao servidor e excluir a tarefa
+            // Você precisa usar JavaScript ou outra biblioteca para interagir com o backend
+
+            // Exemplo de uso do fetch API
+            fetch(`/delete_task/${taskId}`, {
+                method: 'DELETE',
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Atualize a lista de tarefas após a exclusão bem-sucedida
+                fetchTasks();
+            })
+            .catch((error) => {
+                console.error('Erro:', error);
+            });
+        }
+
+        function fetchTasks() {
+            // Lógica para buscar a lista de tarefas do servidor e atualizar a página
+            // Você precisa usar JavaScript ou outra biblioteca para interagir com o backend
+
+            // Exemplo de uso do fetch API
+            fetch('/get_all_tasks')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                // Atualize a lista de tarefas na página
+                const tasksList = document.getElementById('tasksList');
+                tasksList.innerHTML = '';
+                data.tasks.forEach(task => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${task.description} - ${task.created_at} - ${task.status}`;
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Excluir';
+                    deleteButton.type = 'button';
+                    deleteButton.onclick = () => deleteTask(task.task_id);
+                    listItem.appendChild(deleteButton);
+                    tasksList.appendChild(listItem);
+                });
+            })
+            .catch((error) => {
+                console.error('Erro:', error);
+            });
+        }
+
+        // Inicialize a lista de tarefas ao carregar a página
+        fetchTasks();
+    </script>
+</body>
+</html>
